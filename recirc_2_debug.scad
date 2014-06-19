@@ -1,8 +1,8 @@
 include <recirculating_mw.scad>
 difference() {
-    recirc_half(6.0);
+    half();
     translate([0, -20, 0]) cube([40, 40, 40], center=true);
-    translate([-20, 0, 0]) cube([40, 60, 40], center=true);
+    translate([20, 0, 0]) cube([40, 60, 40], center=true);
 }
 
 /* translate([29, 0, 0]) rotate([0,0,180]) % half(6);
