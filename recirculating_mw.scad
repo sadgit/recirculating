@@ -195,7 +195,7 @@ module outer_half() {
 }
 
 module recirc_plate(bearing_offset, recess=0.5) {
-    echo("recirc_plate");
+    echo("recirc_plate es");
     width = 42;
     height = 42;
     thickness = 12;
@@ -203,6 +203,7 @@ module recirc_plate(bearing_offset, recess=0.5) {
     slotwidth = 1;
     soffset = (bearing_offset-10)/2;
     tdepth = .4 * sdepth;
+    stopdepth = thickness - 3;
     tol = 0.25;
     cutout = 10;
     difference() {
@@ -217,9 +218,12 @@ module recirc_plate(bearing_offset, recess=0.5) {
         // shave recess off center section
         translate([0,0,-recess/2])
         cube([2*(bearing_offset-soffset), height, recess], center=true);
+
+
         // hollow out center section 
         translate([0,0,-(sdepth-2)/2])
         cube([cutout, (height-6), sdepth-2], center=true);
+
         // carriage mounting holes (clearance)
         for(xoff=[-10,10]) {
             for(yoff=[-10,10]) {
@@ -231,6 +235,7 @@ module recirc_plate(bearing_offset, recess=0.5) {
                 cylinder(r=3+tol, h=thickness, $fn=6);
             }
         }
+
         // recirc bearing mtg holes (clearance M3)
         for(xoff=[-bearing_offset, bearing_offset]) {
             for(yoff=[-12.5, 12.5]) {
@@ -251,6 +256,9 @@ module recirc_plate(bearing_offset, recess=0.5) {
         // bolts
         translate([0, 0, -tdepth]) rotate([0, 90, 0])
         cylinder(r=3/2, h=width+2, $fn=36, center=true);
+		// end stops - centrline - top
+        translate([0, 0, -stopdepth])  rotate([90, 0, 0])
+        cylinder (r=1.25, h=height+2, $fn=5, center=true);
     }
 }
 
